@@ -1,9 +1,25 @@
 package edu.grinnell.csc207.sortslab;
-
+import java.util.*;
 /**
  * A collection of sorting algorithms over generic arrays.
  */
 public class Sorts {
+
+    public static int binarySearch(int value, int[] arr, int lo, int hi) {
+        int i = lo + (hi - lo) / 2;
+        while(arr[i] != value) {
+            if(hi <= lo) {
+                return -1;
+            } else if(arr[i] > value) {
+                lo = i;
+                i = (hi - i) / 2;
+            } else if(arr[i] < value) {
+                hi = i;
+                i = (i - lo) / 2;
+            }
+        }
+        return i;
+    }
     /**
      * Swaps indices <code>i</code> and <code>j</code> of array <code>arr</code>.
      * @param <T> the carrier type of the array
@@ -26,7 +42,13 @@ public class Sorts {
      * @param arr the array to sort
      */
     public static <T extends Comparable<? super T>> void bubbleSort(T[] arr) {
-        // TODO: fill me in!
+        for(int i = arr.length - 1; i > 0; i--) {
+            for(int j = arr.length - 1; j > 0; j--) {
+               if(arr[j].compareTo(arr[j-1]) < 0) {
+                swap(arr, j-1, j);
+               } 
+            }
+        }
     }
 
     /**
@@ -38,7 +60,17 @@ public class Sorts {
      * @param arr the array to sort
      */
     public static <T extends Comparable<? super T>> void selectionSort(T[] arr) {
-        // TODO: fill me in!
+        for(int i = 0; i < arr.length; i++){
+            T min = arr[i];
+            int index = i;
+            for(int j = i; j < arr.length; j++){
+                if(min.compareTo(arr[j]) > 0){
+                    min = arr[j];
+                    index = j;
+                }
+            }
+            swap(arr, i, index);
+        }
     }
 
     /**
@@ -50,19 +82,39 @@ public class Sorts {
      * @param arr the array to sort
      */
     public static <T extends Comparable<? super T>> void insertionSort(T[] arr) {
-        // TODO: fill me in!
+        for (int i = 0; i < arr.length - 1; i++) {
+            int j = i + 1;
+            while (j > 0 && arr[j].compareTo(arr[j - 1]) < 0) {
+                swap(arr, j, j - 1);
+                j--;
+            }
+        }
     }
 
-    /**
-     * Sorts the array according to the merge sort algorithm:
-     * <pre>
-     * [ sorted | sorted ] -> [ sorted ]
-     * </pre>
+    public static <T extends Comparable<? super T>> void mergeSortHelper(T[] arr, int lo, int hi) {
+        int mid = lo + (hi - lo) / 2;
+        if(lo < hi - 1) {
+            mergeSortHelper(arr, lo, mid);
+            mergeSortHelper(arr, mid, hi);
+        }
+        for(int i = lo; i < hi; i++) {
+            for(int j = lo; j < hi; j++) {
+               if(arr[j].compareTo(arr[j+1]) < 0) {
+                swap(arr, j, j + 1);
+                System.out.println(arr[i]);
+                System.out.println(arr[j]);
+               } 
+            }
+        }
+    }
+     /**
      * @param <T> the carrier type of the array
      * @param arr the array to sort
      */
     public static <T extends Comparable<? super T>> void mergeSort(T[] arr) {
-        // TODO: fill me in!
+        int lo = 0;
+        int hi = arr.length - 1;
+        mergeSortHelper(arr, lo, hi);
     }
 
     /**
@@ -74,6 +126,11 @@ public class Sorts {
      * @param arr
      */
     public static <T extends Comparable<? super T>> void quickSort(T[] arr) {
-        // TODO: fill me in!
+        T pivot = arr[arr.length - 1];
+        for(int i = 0; i < arr.length - 1; i++) {
+          //  if(arr[i] < pivot) {
+
+          //  }
+        }
     }
 }
